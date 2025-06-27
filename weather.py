@@ -90,7 +90,7 @@ print("Printing the inches of mercury barometric pressure for today: ", (hourly_
     # average daily range for the last 7 days [x]
     # average daily pressure range for the last month [x]
     # average hourly change in the past 24 hours [] *** this one isn't *technically* possible since I can't access current weather; only one API call per day, might still do this based on the predictions given 
-    # average hourly change in the past 3 days []
+    # average hourly change in the past 3 days [x]
     # average hourly change across the last 2 months []
     # all of this data for the coming 14 days as well []
     
@@ -161,6 +161,24 @@ total_psr_range_avg = (sum(total_psr_avg_ranges)/44)
 print("TOTAL average daily range over one month: ", total_psr_range_avg)
 
 
+print("3 days ago on the 24th: ", hourly_dataframe["date"][668])
+
+
+# Getting the average hourly change over the past 3 days
+three_day_hourly_changes = []
+
+x = 0
+for i in range(3):
+    for j in range(23):
+        hourly_psr_first = (float(hourly_dataframe["pressure_msl"][x+j])*merc_conversion)
+        hourly_psr_next = (float(hourly_dataframe["pressure_msl"][x+j+1])*merc_conversion)
+        hourly_change = hourly_psr_next - hourly_psr_first
+        three_day_hourly_changes.append(hourly_change)
+    x += 24
+
+three_day_avg_psr_change = (sum(three_day_hourly_changes))/72
+
+print("Average hourly change over the past 3 days: {:.5f}".format(three_day_avg_psr_change))
 
 
 
