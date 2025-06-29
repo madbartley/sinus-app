@@ -72,10 +72,9 @@ hourly_data["surface_pressure"] = hourly_surface_pressure
 hourly_data["pressure_msl"] = hourly_pressure_msl
 
 hourly_dataframe = pd.DataFrame(data = hourly_data)
-print(hourly_dataframe)
+# print(hourly_dataframe)
 
-print("Printing DATE: ", hourly_data["date"][740])
-print("PRINTING: TEMPERATURE ", hourly_data["temperature_2m"][744])
+print("Printing TODAY'S DATE: ", hourly_data["date"][740])
 
 # To get the Mean Sea Level pressure (pressure_msl) from the current hectopascals into inches of mercury, multiply the msl by 0.02952998057228
 merc_conversion = 0.02952998057228
@@ -111,7 +110,7 @@ daily_prs_range = daily_psr_max - daily_psr_min
 print("Today's pressure range: {:.5f}".format(daily_prs_range))
 
 # date for 7 days ago
-print("Today's date: ", hourly_dataframe["date"][572])
+print("The date one week ago: ", hourly_dataframe["date"][572])
 
 # initializing an empty list so I can add the daily ranges later by index instead of appending
 # right now, things are printing in the "for" loop below, but I'm also storing them here for future use
@@ -163,13 +162,31 @@ print("TOTAL average daily range over one month: ", total_psr_range_avg)
 
 print("3 days ago on the 24th: ", hourly_dataframe["date"][668])
 
+# Getting the average hourly change over the past 24 hours
 
-# Getting the average hourly change over the past 3 days
+one_day_hourly_changes = []
+
+x = 740
+for j in range(24):
+    # print("DATE NOW FOR 24 HOURS CHANGES ", hourly_dataframe["date"][x+j])
+    hourly_psr_first = (float(hourly_dataframe["pressure_msl"][x+j])*merc_conversion)
+    hourly_psr_next = (float(hourly_dataframe["pressure_msl"][x+j+1])*merc_conversion)
+    hourly_change = hourly_psr_next - hourly_psr_first
+one_day_hourly_changes.append(hourly_change)
+
+
+one_day_avg_psr_change = (sum(one_day_hourly_changes))/24
+
+print("Average hourly change for today is estimated to be: {:.5f}".format(one_day_avg_psr_change))
+
+
+# Getting the average hourly change over the past 3 days (not including today - so starting from 4 days ago)
 three_day_hourly_changes = []
 
-x = 0
+x = 668
 for i in range(3):
-    for j in range(23):
+    for j in range(24):
+        # print("DATE NOW FOR 72 HOURS CHANGES ", hourly_dataframe["date"][x+j])
         hourly_psr_first = (float(hourly_dataframe["pressure_msl"][x+j])*merc_conversion)
         hourly_psr_next = (float(hourly_dataframe["pressure_msl"][x+j+1])*merc_conversion)
         hourly_change = hourly_psr_next - hourly_psr_first
@@ -179,6 +196,8 @@ for i in range(3):
 three_day_avg_psr_change = (sum(three_day_hourly_changes))/72
 
 print("Average hourly change over the past 3 days: {:.5f}".format(three_day_avg_psr_change))
+
+
 
 
 
