@@ -88,10 +88,13 @@ print("Printing the inches of mercury barometric pressure for today: ", (hourly_
     # pressure daily range for the last 7 days [x]
     # average daily range for the last 7 days [x]
     # average daily pressure range for the last month [x]
-    # average hourly change in the past 24 hours [] *** this one isn't *technically* possible since I can't access current weather; only one API call per day, might still do this based on the predictions given 
+    # average hourly change in the past 24 hours [x] *** this one isn't *technically* possible since I can't access current weather; only one API call per day, might still do this based on the predictions given 
     # average hourly change in the past 3 days [x]
-    # average hourly change across the last 2 months []
-    # all of this data for the coming 14 days as well []
+    # average daily pressure change for coming 14 days [x]
+    # average daily pressure change for coming 3 days [x]
+    # average hourly pressure change for coming 24 hours []
+    # average hourly pressure change for coming 3 days []
+
     
 # current pressure, from above:
 print("Current pressure: ", current_pressure_msl)
@@ -123,14 +126,11 @@ x = 572
 for i in range(8):
     for j in range(24):
         hourly_pressure[j] = (float(hourly_dataframe["pressure_msl"][x+j])*merc_conversion)
-        #print(j, " ", hourly_pressure[j])
     x += 24
     daily_psr_min = min(hourly_pressure)
     daily_psr_mins[i] = daily_psr_min
     daily_psr_max = max(hourly_pressure)
     daily_psr_maxes[i] = daily_psr_max
-    #print("MIN: ", daily_psr_min)
-    #print("MAX: ", daily_psr_max)
     daily_psr_range = daily_psr_max - daily_psr_min
     daily_psr_ranges[i] = daily_psr_range
     print("Daily range for",i,": {:.8f}".format(daily_psr_ranges[i]))
@@ -196,6 +196,43 @@ for i in range(3):
 three_day_avg_psr_change = (sum(three_day_hourly_changes))/72
 
 print("Average hourly change over the past 3 days: {:.5f}".format(three_day_avg_psr_change))
+
+
+
+# Getting the average hourly change over the next 3 days - not counting today, so starting tomorrow
+three_day_future_hourly_changes = []
+
+x = 764
+for i in range(3):
+    for j in range(24):
+        # print("DATE NOW FOR 72 ***FUTURE*** HOURS CHANGES ", hourly_dataframe["date"][x+j])
+        hourly_psr_future_first = (float(hourly_dataframe["pressure_msl"][x+j])*merc_conversion)
+        hourly_psr_future_next = (float(hourly_dataframe["pressure_msl"][x+j+1])*merc_conversion)
+        hourly_change = hourly_psr_future_next - hourly_psr_future_first
+        three_day_future_hourly_changes.append(hourly_change)
+    x += 24
+
+three_day_future_avg_psr_change = (sum(three_day_future_hourly_changes))/72
+
+print("Average hourly change predicted over the next 3 days: {:.5f}".format(three_day_future_avg_psr_change))
+
+
+# Getting the average hourly change over the next 14 days, INCLUDING TODAY (mostly because the data only goes until 3:00am on the 14th day)
+fourteen_day_future_hourly_changes = []
+
+x = 740
+for i in range(14):
+    for j in range(24):
+        hourly_psr_future_first = (float(hourly_dataframe["pressure_msl"][x+j])*merc_conversion)
+        hourly_psr_future_next = (float(hourly_dataframe["pressure_msl"][x+j+1])*merc_conversion)
+        hourly_change = hourly_psr_future_next - hourly_psr_future_first
+        fourteen_day_future_hourly_changes.append(hourly_change)
+    x += 24
+
+fourteen_day_future_avg_psr_change = (sum(fourteen_day_future_hourly_changes))/336
+
+print("Average hourly change predicted over the next 14 days, including today: {:.5f}".format(fourteen_day_future_avg_psr_change))
+
 
 
 
