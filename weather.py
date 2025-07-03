@@ -260,12 +260,13 @@ daily_psr_ranges_predict = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 daily_psr_mins_predict = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 daily_psr_maxes_predict = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-# calculating the daily ranges for the next 14 days, including today
+# calculating the daily ranges for the next 12 days, including today
 x = 740
 for i in range(13):
     for j in range(24):
         if hourly_dataframe["pressure_msl"][x+j] != None:
             hourly_pressure_predict[j] = (float(hourly_dataframe["pressure_msl"][x+j])*merc_conversion)
+            #print(hourly_dataframe["date"][x+j])
     x += 24
     daily_psr_min = min(hourly_pressure_predict)
     daily_psr_mins_predict[i] = daily_psr_min
@@ -273,7 +274,7 @@ for i in range(13):
     daily_psr_maxes_predict[i] = daily_psr_max
     daily_psr_range = daily_psr_max - daily_psr_min
     daily_psr_ranges_predict[i] = daily_psr_range
-    print("Daily range prediction for",i,": {:.8f}".format(daily_psr_ranges_predict[i]))
+    print("Daily range prediction for:",hourly_dataframe["date"][x - 24] ,"{:.8f}".format(daily_psr_ranges_predict[i]))
 
 
 
