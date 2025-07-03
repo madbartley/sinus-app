@@ -95,7 +95,7 @@ print("Printing the inches of mercury barometric pressure for today: ", (hourly_
     # average hourly pressure change for coming 24 hours [x]
     # average hourly pressure change for coming 3 days [x]
     # daily pressure range prediction for next 3 days []
-    # daily pressure range prediction for next 14 days []
+    # daily pressure range prediction for next 14 days [x]
 
     
 # current pressure, from above:
@@ -135,7 +135,7 @@ for i in range(8):
     daily_psr_maxes[i] = daily_psr_max
     daily_psr_range = daily_psr_max - daily_psr_min
     daily_psr_ranges[i] = daily_psr_range
-    print("Daily range for",i,": {:.8f}".format(daily_psr_ranges[i]))
+    print("Daily range for",hourly_dataframe["date"][x - 24],": {:.8f}".format(daily_psr_ranges[i]))
     
 
 # average for the last week, including today, so really the last 8 days
@@ -159,7 +159,7 @@ for i in range(44):
     total_psr_avg_ranges.append(daily_psr_range)
 
 total_psr_range_avg = (sum(total_psr_avg_ranges)/44)
-print("TOTAL average daily range over one month: ", total_psr_range_avg)
+print("Total average daily range over one month: ", total_psr_range_avg)
 
 
 print("3 days ago on the 24th: ", hourly_dataframe["date"][668])
@@ -235,8 +235,6 @@ fourteen_day_future_avg_psr_change = (sum(fourteen_day_future_hourly_changes))/3
 
 print("Average hourly change predicted over the next 14 days, including today: {:.5f}".format(fourteen_day_future_avg_psr_change))
 
-print(" ############################################# ")
-
 
 hourly_pressure_predict = []
 
@@ -248,17 +246,14 @@ daily_psr_max = max(hourly_pressure_predict)
 
 daily_prs_range = daily_psr_max - daily_psr_min
 
-# pressure range for today (24 hours, including predictions)
-print("Today's pressure range: {:.5f}".format(daily_prs_range))
-
-# date for 7 days ago
-print("The date one week ago: ", hourly_dataframe["date"][572])
-
 # initializing an empty list so I can add the daily ranges later by index instead of appending
 # right now, things are printing in the "for" loop below, but I'm also storing them here for future use
+
 daily_psr_ranges_predict = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 daily_psr_mins_predict = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 daily_psr_maxes_predict = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+print("Daily range predictions for the next 12 days")
 
 # calculating the daily ranges for the next 12 days, including today
 x = 740
@@ -274,7 +269,43 @@ for i in range(13):
     daily_psr_maxes_predict[i] = daily_psr_max
     daily_psr_range = daily_psr_max - daily_psr_min
     daily_psr_ranges_predict[i] = daily_psr_range
-    print("Daily range prediction for:",hourly_dataframe["date"][x - 24] ,"{:.8f}".format(daily_psr_ranges_predict[i]))
+    print("Daily range prediction for:",hourly_dataframe["date"][x - 24] ,"{:.5f}".format(daily_psr_ranges_predict[i]))
+
+# Average daily range over the next 12 days
+
+avg_daily_range_predict_12 = (sum(daily_psr_ranges_predict))/12
+
+print("Average daily range predicted over the next 12 days: {:.5f}".format(avg_daily_range_predict_12))
+
+# Predicting average range for the next three days, not including today
+
+# comment this out to use hourly_pressure_predict above, or else you have to manually initialize this to be full of 0s
+# hourly_pressure_predict_3 = []
+
+daily_psr_ranges_predict_3 = [0,0,0]
+daily_psr_mins_predict_3 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+daily_psr_maxes_predict_3 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+x = 764
+for i in range(3):
+    for j in range(24):
+        if hourly_dataframe["pressure_msl"][x+j] != None:
+            hourly_pressure_predict[j] = (float(hourly_dataframe["pressure_msl"][x+j])*merc_conversion)
+            # print(hourly_dataframe["date"][x+j])
+    x += 24
+    daily_psr_min = min(hourly_pressure_predict)
+    daily_psr_mins_predict_3[i] = daily_psr_min
+    daily_psr_max = max(hourly_pressure_predict)
+    daily_psr_maxes_predict_3[i] = daily_psr_max
+    daily_psr_range = daily_psr_max - daily_psr_min
+    daily_psr_ranges_predict_3[i] = daily_psr_range
+    print("Daily range prediction for:",hourly_dataframe["date"][x - 24] ,"{:.8f}".format(daily_psr_ranges_predict_3[i]))
+
+avg_daily_range_predict_3 = (sum(daily_psr_ranges_predict_3))/3
+
+print("Average daily range predicted over the next 3 days: {:.5f}".format(avg_daily_range_predict_3))
+
+
 
 
 
