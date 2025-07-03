@@ -90,10 +90,12 @@ print("Printing the inches of mercury barometric pressure for today: ", (hourly_
     # average daily pressure range for the last month [x]
     # average hourly change in the past 24 hours [x] *** this one isn't *technically* possible since I can't access current weather; only one API call per day, might still do this based on the predictions given 
     # average hourly change in the past 3 days [x]
-    # average daily pressure change for coming 14 days [x]
-    # average daily pressure change for coming 3 days [x]
-    # average hourly pressure change for coming 24 hours []
-    # average hourly pressure change for coming 3 days []
+    # average daily pressure change for coming 14 days []
+    # average daily pressure change for coming 3 days []
+    # average hourly pressure change for coming 24 hours [x]
+    # average hourly pressure change for coming 3 days [x]
+    # daily pressure range prediction for next 3 days []
+    # daily pressure range prediction for next 14 days []
 
     
 # current pressure, from above:
@@ -233,7 +235,45 @@ fourteen_day_future_avg_psr_change = (sum(fourteen_day_future_hourly_changes))/3
 
 print("Average hourly change predicted over the next 14 days, including today: {:.5f}".format(fourteen_day_future_avg_psr_change))
 
+print(" ############################################# ")
 
+
+hourly_pressure_predict = []
+
+for i in range(25):
+    hourly_pressure_predict.append(float((hourly_dataframe["pressure_msl"][740+i])*merc_conversion))
+    
+daily_psr_min = min(hourly_pressure_predict)
+daily_psr_max = max(hourly_pressure_predict)
+
+daily_prs_range = daily_psr_max - daily_psr_min
+
+# pressure range for today (24 hours, including predictions)
+print("Today's pressure range: {:.5f}".format(daily_prs_range))
+
+# date for 7 days ago
+print("The date one week ago: ", hourly_dataframe["date"][572])
+
+# initializing an empty list so I can add the daily ranges later by index instead of appending
+# right now, things are printing in the "for" loop below, but I'm also storing them here for future use
+daily_psr_ranges_predict = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+daily_psr_mins_predict = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+daily_psr_maxes_predict = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+# calculating the daily ranges for the next 14 days, including today
+x = 740
+for i in range(13):
+    for j in range(24):
+        if hourly_dataframe["pressure_msl"][x+j] != None:
+            hourly_pressure_predict[j] = (float(hourly_dataframe["pressure_msl"][x+j])*merc_conversion)
+    x += 24
+    daily_psr_min = min(hourly_pressure_predict)
+    daily_psr_mins_predict[i] = daily_psr_min
+    daily_psr_max = max(hourly_pressure_predict)
+    daily_psr_maxes_predict[i] = daily_psr_max
+    daily_psr_range = daily_psr_max - daily_psr_min
+    daily_psr_ranges_predict[i] = daily_psr_range
+    print("Daily range prediction for",i,": {:.8f}".format(daily_psr_ranges_predict[i]))
 
 
 
