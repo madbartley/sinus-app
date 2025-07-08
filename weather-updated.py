@@ -15,7 +15,7 @@ with open("./sinus-app/config.json") as creds:
 # Connecting to the MySQL database
 
 try:
-    mydb = mysql.connector.connect(
+    db = mysql.connector.connect(
         host=config["db_host"],
         user=config["db_user"],
         password=config["db_password"]
@@ -26,7 +26,11 @@ except mysql.connector.Error as error:
     print(f"Error connecting to MySQL: {error}")
     exit()
 
+# Get a cursor
+cur = db.cursor()
 
+
+# ### API info, taken from Open-Meteo ### #
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -99,7 +103,7 @@ hourly_dataframe = pd.DataFrame(data = hourly_data)
 # print(hourly_dataframe)
 
 
-# ### Begin my stats ### #
+# ### Begin my code ### #
 
 # Creating a class with all of the weather stats in it - an instance of the class for each day will be generated when the backend service hits the API at midnight, and that's what will be passed to the mobile app
     # the class needs variables for is_day and current pressure directly from the data frame, as well as all of the stats that I create with the looping
