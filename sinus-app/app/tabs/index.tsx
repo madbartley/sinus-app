@@ -9,6 +9,7 @@ import HeadachePage from '/HeadachePage.tsx'
 import TodayLog from '/TodayLog.tsx'
 import DateLog from '/DateLog.tsx'
 import Weather from '/Weather.tsx'
+import WeatherStats from '/WeatherStats.tsx'
 
 function Home() {
   const navigation = useNavigation();
@@ -21,7 +22,7 @@ function Home() {
       }}
     >
       <Text style={styles.welcome}>Welcome</Text>
-      <View style={styles.baroView}><Image source={require('../../../assets/images/baro.png')} style={{width: 110, height: 120}}/></View>
+      <View style={styles.baroView}><Image source={require('./baro.png')} style={{width: 110, height: 120}}/></View>
       <View><Text style={styles.tagline}>What would you like to do?</Text></View>
       <View style={styles.buttonView}>
       <Button style={styles.button} onPress={() => navigation.navigate('Headache')}>
@@ -52,6 +53,7 @@ const RootStack = createNativeStackNavigator({
     Weather: Weather,
     DateLog: DateLog,
     TodayLog: TodayLog,
+    WeatherStats: WeatherStats,
   },
 });
 
@@ -74,7 +76,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 160,
-    fontSize: 50,
     margin: 10,
   },
   buttonView: {

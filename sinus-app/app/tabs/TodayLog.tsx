@@ -7,14 +7,20 @@ import { StyleSheet } from 'react-native';
 export default function TodayLog() {
 
   return(
+    <View
+      style={{
+        alignItems: "center",
+        marginTop: 100,
+        margin: 25,
+        }}
+      >
     <View>
-    <View>
-      <Text>Sorry you're not feeling well today!</Text>
+      <Text style= {{fontSize: 20, margin: 10}}>Sorry you're not feeling well today!</Text>
     </View>
     <View>
       <Text>Click the button to log a headache for today.</Text>
     </View>
-    <View>
+    <View style={ styles.buttonView }>
     <Button style={styles.button} onPress={() => console.log("Logged today!")}>Send it!</Button>
 
     </View>
@@ -25,7 +31,15 @@ export default function TodayLog() {
 
 const styles = StyleSheet.create({
   button: {
-    width: 175,
-  }
+    width: 160,
+    margin: 10,
+  },
+  buttonView: {
+    //backgroundColor: "red",
+    alignItems: "center",
+    flexDirection: "row",
+    height: 100,
+    margin: 5,
+  },
 });
 

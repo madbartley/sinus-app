@@ -9,14 +9,27 @@ export default function HeadachePage() {
   const navigation = useNavigation();
   
   return(
+    <View
+      style={{
+        alignItems: "center",
+        marginTop: 100,
+        margin: 25,
+        }}
+      >
     <View>
-    <View>
-      <Text>Sorry you're not feeling well! Let's track that headache!</Text>
+      <Text style= {{fontSize: 20, margin: 10}}>Let's track that headache!</Text>
     </View>
     <View>
-      <Text>When would you like to log a headache?</Text>
+    <Text>When would you like to log a headache?</Text>
     </View>
-    <View>
+    <View
+        style={{
+        flex: 1,
+        alignItems: "center",
+      }}
+    >
+    </View>
+    <View style={ styles.buttonView }>
     <Button style={styles.button} onPress={() => navigation.navigate('TodayLog')}>Today</Button>
     <Button style={styles.button} onPress={() => navigation.navigate('DateLog')}>Some other day</Button>
     </View>
@@ -27,7 +40,15 @@ export default function HeadachePage() {
 
 const styles = StyleSheet.create({
   button: {
-    width: 175,
-  }
+    width: 160,
+    margin: 10,
+  },
+  buttonView: {
+    //backgroundColor: "red",
+    alignItems: "center",
+    flexDirection: "row",
+    height: 100,
+    margin: 5,
+  },
 });
 
