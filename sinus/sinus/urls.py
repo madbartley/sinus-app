@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 # REMEMBER TO UPDATE THE HOST OF THE DATABASE ONCE THIS PROJECT IS DEPLOYED - RIGHT NOW IT'S JUST LOCAL HOST IN SETTINGS.PY, DATABASES
 
