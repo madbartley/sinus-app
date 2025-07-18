@@ -4,6 +4,9 @@ import pandas as pd
 import requests_cache
 from retry_requests import retry
 
+# to format the date from hourly_dataframe from yyyy/mm/dd to dd/mm/yyyy
+import datetime
+
 import json
 
 import mysql.connector
@@ -271,3 +274,14 @@ class Weather:
 
 
 today = Weather(hourly_dataframe)
+
+hourly_dataframe['date'] = pd.to_datetime(hourly_dataframe['date']).dt.date
+
+day = str(hourly_dataframe['date'][740])
+print(day)
+
+
+
+
+
+
