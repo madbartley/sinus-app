@@ -5,11 +5,11 @@ import requests_cache
 from retry_requests import retry
 
 # to format the date from hourly_dataframe from yyyy/mm/dd to dd/mm/yyyy
+import mysql.connector
 import datetime
+from datetime import date, datetime, timedelta
 
 import json
-
-import mysql.connector
 
 # Grabbing my database credentials from the .json file in the .gitignore
 with open("./sinus-app/config.json") as creds:
@@ -21,7 +21,8 @@ try:
     db = mysql.connector.connect(
         host=config["db_host"],
         user=config["db_user"],
-        password=config["db_password"]
+        password=config["db_password"],
+        database=config["db_name"]
     )
     print("Connected to MySQL server!")
 
@@ -131,6 +132,9 @@ class Weather:
 
         # variables generated
 
+        # get the date from a pandas Timestamp type in yyyy/mm/dd to a string of mm/dd/yyyy
+        self.day = self.getDay(hourly_dataframe)
+
         # mins and maxes
         self.mins_maxes = self.get_min_max(self.past_7)
         self.past_min_24_hrs = self.mins_maxes[0]
@@ -185,6 +189,20 @@ class Weather:
         # past 30 day avg hourly changes
         self.avg_hourly_change_past_30_days = self.get_change(30, self.past_30)
 
+    def getDay(self, hourly_dataframe):
+        # convert all of the dates to datetime instead of Timestamp
+        hourly_dataframe['date'] = pd.to_datetime(hourly_dataframe['date']).dt.date
+
+        day = str(hourly_dataframe['date'][740])
+        print(day)
+
+        # split according to the hyphen to get "yyyy", "mm", and "dd"
+        split = day.split("-")
+
+        # concat them all together to get the string in the right order so it can be put into the database
+        newDay = split[1]+"-"+split[2]+"-"+split[0]
+        return newDay
+    
     def get_min_max(self, num_rows):
         # all 336 hours stored here
         hourly_data = []
@@ -272,16 +290,23 @@ class Weather:
         print("Average hourly change over ", num_days, " days: ", avg_hourly_change) 
         return avg_hourly_change
 
-
+# this is the instance of the Weather class that will be created every time the script is run at midnight
 today = Weather(hourly_dataframe)
 
-hourly_dataframe['date'] = pd.to_datetime(hourly_dataframe['date']).dt.date
+# turn the day from a string to a DATE type
+today_date = datetime.strptime(today.day, "%m-%d-%Y").date()
 
-day = str(hourly_dataframe['date'][740])
-print(day)
+# the Python variable that will be used in the "cur.execute" statement to tell MySQL what to do
+add_headache = ("INSERT INTO headache_days "
+                "(day_time, headache_reported) "
+                "VALUES (%s, %s)")
 
+# the tuple with the actual data that will be inserted to the database on the "cur.execute" call
+headache = (today_date, 0)
 
+# actually passing the data
+cur.execute(add_headache, headache)
 
-
-
+# making sure the data is committed
+db.commit()
 
