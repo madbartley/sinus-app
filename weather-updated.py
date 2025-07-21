@@ -296,17 +296,15 @@ today = Weather(hourly_dataframe)
 # turn the day from a string to a DATE type
 today_date = datetime.strptime(today.day, "%m-%d-%Y").date()
 
-# the Python variable that will be used in the "cur.execute" statement to tell MySQL what to do
-add_headache = ("INSERT INTO headache_days "
-                "(day_time, headache_reported) "
-                "VALUES (%s, %s)")
+# the Python variable that will be used in the "cur.execute" statement to tell MySQL what to do (32 variables for this)
+add_weather_data = ("INSERT INTO weather_pressurestats "
+                            "(day_time, past_min_24, past_max_24, past_min_3, past_max_3, past_min_7, past_max_7, next_min_24, next_max_24, next_min_3, next_max_3, next_min_7, next_max_7, past_range_24, next_range_24, past_range_3, next_range_3, past_avg_range_3, next_avg_range_3, past_range_7, next_range_7, next_avg_range_7, past_avg_range_7, past_range_30, past_avg_range_30, past_avg_hrly_change_24, next_avg_hrly_change_24, past_avg_hrly_change_3, next_avg_hrly_change_3, past_avg_hrly_change_7, next_avg_hrly_change_7, past_avg_hrly_change_30)"
+                            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
 # the tuple with the actual data that will be inserted to the database on the "cur.execute" call
-headache = (today_date, 0)
-
+weather_data = (today_date, today.past_min_24_hrs, today.past_max_24_hrs, today.past_min_3_days, today.past_max_3_days, today.past_min_7_days, today.past_max_7_days, today.next_min_24_hrs, today.next_max_24_hrs, today.next_min_3_days, today.next_max_3_days, today.next_min_7_days, today.next_max_7_days, today.psr_range_past_24_hrs, today.psr_range_next_24_hrs, today.psr_range_past_3_days, today.psr_range_next_3_days, today.avg_psr_range_past_3_days, today.avg_psr_range_next_3_days, today.psr_range_past_7_days, today.psr_range_next_7_days, today.avg_psr_range_next_7_days, today.avg_psr_range_past_7_days, today.psr_range_past_30_days, today.avg_psr_range_past_30_days, today.avg_hourly_change_past_24_hrs, today.avg_hourly_change_next_24_hrs, today.avg_hourly_change_past_3_days, today.avg_hourly_change_next_3_days, today.avg_hourly_change_past_7_days, today.avg_hourly_change_next_7_days, today.avg_hourly_change_past_30_days)
 # actually passing the data
-cur.execute(add_headache, headache)
+cur.execute(add_weather_data, weather_data)
 
 # making sure the data is committed
 db.commit()
-
