@@ -1,7 +1,7 @@
 import { Text, View, Image } from "react-native";
 import { Button } from '@react-navigation/elements';
 import { StyleSheet } from 'react-native';
-import { createStaticNavigation, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 
 

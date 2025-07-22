@@ -296,7 +296,7 @@ today = Weather(hourly_dataframe)
 # turn the day from a string to a DATE type
 today_date = datetime.strptime(today.day, "%m-%d-%Y").date()
 
-# the Python variable that will be used in the "cur.execute" statement to tell MySQL what to do (32 variables for this)
+# the Python variable that will be used in the "cur.execute" statement to tell MySQL what to do (32 variables for the database)
 add_weather_data = ("INSERT INTO weather_pressurestats "
                             "(day_time, past_min_24, past_max_24, past_min_3, past_max_3, past_min_7, past_max_7, next_min_24, next_max_24, next_min_3, next_max_3, next_min_7, next_max_7, past_range_24, next_range_24, past_range_3, next_range_3, past_avg_range_3, next_avg_range_3, past_range_7, next_range_7, next_avg_range_7, past_avg_range_7, past_range_30, past_avg_range_30, past_avg_hrly_change_24, next_avg_hrly_change_24, past_avg_hrly_change_3, next_avg_hrly_change_3, past_avg_hrly_change_7, next_avg_hrly_change_7, past_avg_hrly_change_30)"
                             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")

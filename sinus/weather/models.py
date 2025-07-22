@@ -27,7 +27,7 @@ class PressureStats(models.Model):
     next_avg_range_7 = models.FloatField() 
     past_avg_range_7 = models.FloatField() 
     past_range_30 = models.FloatField() 
-    next_range_30 = models.FloatField() 
+    past_avg_range_30 = models.FloatField() 
     past_avg_hrly_change_24 = models.FloatField() 
     next_avg_hrly_change_24 = models.FloatField() 
     past_avg_hrly_change_3 = models.FloatField() 
