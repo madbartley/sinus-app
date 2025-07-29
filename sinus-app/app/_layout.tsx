@@ -13,7 +13,7 @@ const RootLayout = () => {
         headerStyle: { backgroundColor: theme.navBackground},
         headerTintColor: theme.title,
     }}>
-        <Stack.Screen name="index" options={{ title:'Home', headerShown: false}}/>
+        <Stack.Screen name="index" options={{ title:'Low Pressure', headerShown: true}}/>
         <Stack.Screen name="Headache" options={{ title: 'Log a headache'}}/>
         <Stack.Screen name="DateLog" options={{ title: 'Past headaches'}}/>
         <Stack.Screen name="TodayLog" options={{ title: 'Log a headache today'}}/>

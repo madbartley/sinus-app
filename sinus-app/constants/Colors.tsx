@@ -1,22 +1,13 @@
 export const Colors = {
-    primary: "lightblue",
-    warning: "red",
+        primary: "#14836e",
+        secondary: "#b7990d",
+        tertiary: "#ffe1c6",
 
-    dark: {
-        text: "white",
-        title: "hotpink",
-        background: "black",
-        navBackground: "darkgray",
-        iconColor: "hotpink",
-        iconColorFocused: "yellow",
-    },
 
     light: {
-        text: "black",
-        title: "hotpink",
-        background: "white",
-        navBackground: "lightgrey",
-        iconColor: "hotpink",
-        iconColorFocused: "orange",
+        text: "#14836e",
+        title: "black",
+        background: "#14836e",
+        navBackground: "#b7990d",
     },
 }

@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "sinusapp",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "auto",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true

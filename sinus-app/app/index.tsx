@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, useColorScheme, Image } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router'
+import Lines from '../app/components/Lines'
 import { Colors } from '../constants/Colors'
 import AppLoading from 'expo-app-loading';
-import line from '../assets/images/line.png'
 import {
   useFonts,
   AnticDidone_400Regular,
@@ -30,36 +30,16 @@ const index = () => {
     return (
       <View style={styles.container}>
         <View style = {styles.spacer}></View>
-        <View style = {styles.title}><Text style={{ fontFamily: "AnticDidone_400Regular", fontSize: 28 }}>Welcome to Low Pressure</Text>
-        <Text style={{ fontFamily: "AnticDidone_400Regular", fontSize: 22 }}>the sinus-headache tracking app</Text>
+        <View style = {styles.title}>
+          <Text style={{ fontFamily: "AnticDidone_400Regular", fontSize: 28 }}>Welcome to Low Pressure</Text>
+          <Text style={{ fontFamily: "AnticDidone_400Regular", fontSize: 22 }}>the sinus-headache tracking app</Text>
         </View>
+        <View><Text style={{ fontFamily: "Roboto_400Regular", fontSize: 16, color: Colors.secondary,}}>Choose an option get started</Text></View>
         <View style = {styles.buttonContainer}>
         <Link style = {styles.button} href="/Headache">Log a headache</Link>
         <Link style = {styles.button} href="/Weather">View weather</Link>
         </View>
-        <View style = {styles.lines}>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 250}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 235}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 220}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 230}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 215}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 218}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 225}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 200}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 178}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 140}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 155}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 145}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 152}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 200}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 235}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 220}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 230}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 215}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 218}}/>
-          <Image source={require('../assets/images/line.png')} style={{width: 2, height: 250}}/>
-
-        </View>
+        <Lines /> 
       </View>
     )
   }
@@ -74,18 +54,20 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
 
-        backgroundColor: '#14836e',
+        backgroundColor: Colors.primary,
     },
     title: {
       display: 'flex',
       alignItems: 'center',
       width: 400,
       margin: 10,
+      fontFamily: "AnticDidone_400Regular", 
+      fontSize: 28,
     },
     button: {
       fontFamily: "Roboto_400Regular", 
       fontSize: 14,
-      color: '#14836e',
+      color: Colors.primary,
       width: 120,
       height: 25,
       backgroundColor: 'black',
