@@ -1,13 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, useColorScheme, View, StatusBar } from 'react-native'
 import React from 'react'
 import { Stack } from 'expo-router'
+import { Colors } from '../constants/Colors'
 
 const RootLayout = () => {
+  const colorScheme = useColorScheme() // this hook will return 'light' or 'dark' (rarely, null)
+  const theme = Colors[colorScheme] ?? Colors.light
   return (
-    // these are global options on the outer Stack "screenOptions" tag, but you can override these styles by adding them to the individual screens below
-    <Stack screenOptions={{
-        headerStyle: { backgroundColor: 'lightblue'},
-        headerTintColor: 'hotpink',
+    // wrapping this in a "fragment": <> </>
+    <><StatusBar value="auto"/>
+    <Stack screenOptions={{     // these are global options on the outer Stack "screenOptions" tag, but you can override these styles by adding them to the individual screens below
+        headerStyle: { backgroundColor: theme.navBackground},
+        headerTintColor: theme.title,
     }}>
         <Stack.Screen name="index" options={{ title:'Home', headerShown: false}}/>
         <Stack.Screen name="Headache" options={{ title: 'Log a headache'}}/>
@@ -16,6 +20,7 @@ const RootLayout = () => {
         <Stack.Screen name="Weather" options={{ title: 'Weather'}}/>
         <Stack.Screen name="WeatherStats" options={{ title: 'Weather stats'}}/>
     </Stack>
+    </>
   )
 }
 
