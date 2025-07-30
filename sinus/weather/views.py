@@ -9,5 +9,5 @@ class PressureStatsViewSet(viewsets.ModelViewSet):
 
 class HeadachesReportedViewSet(viewsets.ModelViewSet):
     serializer_class = HeadachesReportedSerializer
-    queryset = HeadachesReported.objects.all()
+    queryset = HeadachesReported.objects.all() 
 

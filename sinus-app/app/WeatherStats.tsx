@@ -1,4 +1,6 @@
 import { Text, View, Image, ScrollView, useColorScheme, } from "react-native";
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import { Button } from '@react-navigation/elements';
 import { StyleSheet } from 'react-native';
 import { Link } from 'expo-router'
@@ -17,6 +19,30 @@ import {
 
 
 export default function WeatherStats() {
+    // initializing state variable to store the weather response object called "weather"
+    const [data, setData] = useState(null);
+
+
+    useEffect (() => {
+        const fetchData = async () => {
+          try {
+            const response = await axios.get("http://127.0.0.1:8000/pressure-stats/");
+              setData(response.data);
+              console.log("This is the response: ", response.data);
+              console.log("This is the day time:", response.data[0].day_time);
+          } catch (err) {
+            console.log("Error! " + err);
+          } finally {
+            console.log("Loading...");
+          }
+        };
+
+        fetchData();
+
+      }, []); // empty dependency array [] ensures this runs only once after render
+
+      console.log(data);
+
   let [fontsLoaded] = useFonts({
     AnticDidone_400Regular,
     Roboto_400Regular,
@@ -38,15 +64,15 @@ export default function WeatherStats() {
     <View><Text style={{ fontFamily: "Roboto_400Regular", fontSize: 14, color: Colors.secondary,}}>all data given in "inches of mercury"</Text></View>
     <View style = {styles.statsContainer}>
       <Text style = {styles.stats}>Pressure right now</Text>
-      <View style = {styles.pressure}>Pressure stats here</View>
+      <View>{data ? (<Text style = {styles.pressure}>{data[0].day_time}</Text>) : <Text>Loading...</Text> }</View>
       <Text style = {styles.stats}>Daily minimums</Text>
-      <View style = {styles.pressure}>Pressure stats here</View>
+      <Text style = {styles.pressure}>Pressure stats here</Text>
       <Text style = {styles.stats}>Daily maximums</Text>
-      <View style = {styles.pressure}>Pressure stats here</View>
+      <Text style = {styles.pressure}>Pressure stats here</Text>
       <Text style = {styles.stats}>Air pressure ranges</Text>
-      <View style = {styles.pressure}>Pressure stats here</View>
+      <Text style = {styles.pressure}>Pressure stats here</Text>
       <Text style = {styles.stats}>Average hourly changes</Text>
-      <View style = {styles.pressure}>Pressure stats here</View>
+      <Text style = {styles.pressure}>Pressure stats here</Text>
     </View>
     </View>
   )
@@ -98,11 +124,13 @@ const styles = StyleSheet.create({
     stats: {
       fontFamily: "Roboto_400Regular", 
       fontSize: 14,
-      color: Colors.primary,
-      width: 160,
+      color: "black",
+      width: 380,
       height: 30,
-      backgroundColor: 'black',
+      backgroundColor: Colors.primary,
       borderRadius: 10,
+      borderWidth: 1,
+      borderColor: "black",
       margin: 2,
       padding: 5,
       textAlign: 'left',
