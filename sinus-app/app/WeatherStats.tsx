@@ -5,6 +5,7 @@ import { Button } from '@react-navigation/elements';
 import { StyleSheet } from 'react-native';
 import { Link } from 'expo-router'
 import Lines from '../app/components/Lines'
+import DataCard from '../app/components/DataCard'
 import { Colors } from '../constants/Colors'
 import AppLoading from 'expo-app-loading';
 import {
@@ -41,7 +42,9 @@ export default function WeatherStats() {
 
       }, []); // empty dependency array [] ensures this runs only once after render
 
-      console.log(data);
+      // Need to do: take every day from the database - if the day matches the state, render each day's relevant info under the correct heading
+      // So, for one day, each item in it's response array will go to a different heading
+      // Each value will need to be shown on it's own card, with the date on it, so people can scroll horizontally
 
   let [fontsLoaded] = useFonts({
     AnticDidone_400Regular,
@@ -64,15 +67,15 @@ export default function WeatherStats() {
     <View><Text style={{ fontFamily: "Roboto_400Regular", fontSize: 14, color: Colors.secondary,}}>all data given in "inches of mercury"</Text></View>
     <View style = {styles.statsContainer}>
       <Text style = {styles.stats}>Pressure right now</Text>
-      <View>{data ? (<Text style = {styles.pressure}>{data[0].day_time}</Text>) : <Text>Loading...</Text> }</View>
+      <View style = {styles.stats}>{data ? (<View>{data[0].day_time}</View>) : <Text>Loading...</Text> }</View>
       <Text style = {styles.stats}>Daily minimums</Text>
-      <Text style = {styles.pressure}>Pressure stats here</Text>
+      <View style = {styles.dataCard}><DataCard /></View>
       <Text style = {styles.stats}>Daily maximums</Text>
-      <Text style = {styles.pressure}>Pressure stats here</Text>
+      <View style = {styles.dataCard}><DataCard /></View>
       <Text style = {styles.stats}>Air pressure ranges</Text>
-      <Text style = {styles.pressure}>Pressure stats here</Text>
+      <View style = {styles.dataCard}><DataCard /></View>
       <Text style = {styles.stats}>Average hourly changes</Text>
-      <Text style = {styles.pressure}>Pressure stats here</Text>
+      <View style = {styles.dataCard}><DataCard /></View>
     </View>
     </View>
   )
@@ -149,6 +152,10 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       gap: 20,
       alignItems: 'flex-end',
+    },
+    dataCard: {
+      height: 70,
+      padding: 5,
     }
 })
 
